@@ -1,0 +1,21 @@
+{
+    "name": "jansenfelipe/cep-gratis",
+    "description": "Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.",
+    "keywords": ["laravel", "cep", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jansen Felipe",
+            "email": "janen.felipe@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "JansenFelipe\\CepGratis": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
