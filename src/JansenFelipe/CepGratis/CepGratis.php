@@ -25,20 +25,19 @@ class CepGratis {
 
         $resposta = array(
             'logradouro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
-            'bairro' => utf8_decode(trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html())),
+            'bairro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html()),
             'cep' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
-
         $aux = explode(" - ", $resposta['logradouro']);
         if (count($aux) == 2)
             $resposta['logradouro'] = $aux[0];
 
         $cidadeUF = explode("/", trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
 
-        $resposta['cidade'] = utf8_decode(trim($cidadeUF[0]));
+        $resposta['cidade'] = trim($cidadeUF[0]);
         $resposta['uf'] = trim($cidadeUF[1]);
-
-        return array_map('htmlentities', $resposta);
+      
+        return array_map('html_entity_decode', array_map('htmlentities', $resposta));
     }
 
     /**
