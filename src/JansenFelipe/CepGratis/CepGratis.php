@@ -38,7 +38,7 @@ class CepGratis {
         $resposta['cidade'] = utf8_decode(trim($cidadeUF[0]));
         $resposta['uf'] = trim($cidadeUF[1]);
 
-        return $resposta;
+        return array_map('htmlentities', $resposta);
     }
 
     /**
