@@ -6,17 +6,20 @@
     "authors": [
         {
             "name": "Jansen Felipe",
-            "email": "janen.felipe@gmail.com"
+            "email": "jansen.felipe@gmail.com"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.3.0",
         "electrolinux/phpquery": "dev-master"
     },
     "autoload": {
         "psr-0": {
             "JansenFelipe\\CepGratis": "src/"
         }
+    },
+    "config": {
+        "preferred-install": "dist"
     },
     "minimum-stability": "stable"
 }
