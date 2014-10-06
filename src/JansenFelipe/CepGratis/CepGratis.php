@@ -11,6 +11,7 @@ class CepGratis {
      * @return array  Endereço
      */
     public function consulta($cep) {
+
         $html = $this->curl('http://m.correios.com.br/movel/buscaCepConfirma.do', array(
             'cepEntrada' => $cep,
             'tipoCep' => '',
@@ -18,13 +19,13 @@ class CepGratis {
             'metodo' => 'buscarCep'
         ));
 
-        
-        require_once 'phpQuery-onefile';
+
+        require_once __DIR__ . '\phpQuery-onefile.php';
         \phpQuery::newDocumentHTML($html, $charset = 'utf-8');
 
         $resposta = array(
             'logradouro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
-            'bairro' => unaccents(trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html())),
+            'bairro' => utf8_decode(trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html())),
             'cep' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
 
@@ -34,7 +35,7 @@ class CepGratis {
 
         $cidadeUF = explode("/", trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
 
-        $resposta['cidade'] = unaccents(utf8_encode(trim($cidadeUF[0])));
+        $resposta['cidade'] = utf8_decode(trim($cidadeUF[0]));
         $resposta['uf'] = trim($cidadeUF[1]);
 
         return $resposta;
@@ -60,7 +61,7 @@ class CepGratis {
         }
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         return curl_exec($ch);
     }
 
