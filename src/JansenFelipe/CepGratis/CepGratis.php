@@ -18,19 +18,21 @@ class CepGratis {
             'metodo' => 'buscarCep'
         ));
 
-        phpQuery::newDocumentHTML($html, $charset = 'utf-8');
+        
+        require_once 'phpQuery-onefile';
+        \phpQuery::newDocumentHTML($html, $charset = 'utf-8');
 
         $resposta = array(
-            'logradouro' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
-            'bairro' => unaccents(trim(phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html())),
-            'cep' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
+            'logradouro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
+            'bairro' => unaccents(trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html())),
+            'cep' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
 
         $aux = explode(" - ", $resposta['logradouro']);
         if (count($aux) == 2)
             $resposta['logradouro'] = $aux[0];
 
-        $cidadeUF = explode("/", trim(phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
+        $cidadeUF = explode("/", trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
 
         $resposta['cidade'] = unaccents(utf8_encode(trim($cidadeUF[0])));
         $resposta['uf'] = trim($cidadeUF[1]);
