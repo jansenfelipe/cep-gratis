@@ -2,6 +2,8 @@
 
 namespace JansenFelipe\CepGratis;
 
+use \JansenFelipe\Utils\Utils as Utils;
+
 class CepGratis {
 
     /**
@@ -10,10 +12,10 @@ class CepGratis {
      * @param  string $cep CEP
      * @return array  Endereço
      */
-    public function consulta($cep) {
+    public static function consulta($cep) {
 
-        $html = $this->curl('http://m.correios.com.br/movel/buscaCepConfirma.do', array(
-            'cepEntrada' => $cep,
+        $html = self::curl('http://m.correios.com.br/movel/buscaCepConfirma.do', array(
+            'cepEntrada' => Utils::unmask($cep),
             'tipoCep' => '',
             'cepTemp' => '',
             'metodo' => 'buscarCep'
@@ -36,7 +38,7 @@ class CepGratis {
 
         $resposta['cidade'] = trim($cidadeUF[0]);
         $resposta['uf'] = trim($cidadeUF[1]);
-      
+
         return array_map('html_entity_decode', array_map('htmlentities', $resposta));
     }
 
@@ -44,7 +46,7 @@ class CepGratis {
      * Metodo para enviar a requisição
      * @return String HTML
      */
-    private function curl($url, $post = array(), $get = array()) {
+    private static function curl($url, $post = array(), $get = array()) {
         $url = explode('?', $url, 2);
         if (count($url) === 2) {
             $temp_get = array();

@@ -1,5 +1,5 @@
 # CEP Grátis
-
+[![Travis](https://travis-ci.org/jansenfelipe/cep-gratis.svg?branch=1.0)](https://travis-ci.org/jansenfelipe/cep-gratis)
 [![Latest Stable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/stable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![Total Downloads](https://poser.pugx.org/jansenfelipe/cep-gratis/downloads.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![Latest Unstable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/unstable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![License](https://poser.pugx.org/jansenfelipe/cep-gratis/license.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis)
 
 Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.
