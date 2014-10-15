@@ -22,7 +22,7 @@ class CepGratis {
         ));
 
 
-        require_once __DIR__ . '\phpQuery-onefile.php';
+        require_once __DIR__ . DIRECTORY_SEPARATOR . 'phpQuery-onefile.php';
         \phpQuery::newDocumentHTML($html, $charset = 'utf-8');
 
         $resposta = array(
