@@ -8,7 +8,7 @@ Com esse pacote você poderá realizar consultas de CEP no site dos correios gra
 
 Adicione no seu arquivo `composer.json` o seguinte registro na chave `require`
 
-    "jansenfelipe/cep-gratis": "dev-master"
+    "jansenfelipe/cep-gratis": "1.0.*@dev"
 
 Execute
 
@@ -50,5 +50,5 @@ Adicione o autoload.php do composer no seu arquivo PHP.
 
 Agora basta chamar o metodo consultar($cep) da classe JansenFelipe\CepGratis
 
-    $cepGratis = new JansenFelipe\CepGratis();
-    $endereco = $cepGratis->consultar('31030080');
+    use JansenFelipe\CepGratis\CepGratis as CepGratis;
+    $endereco = CepGratis::consultar('31030080');
