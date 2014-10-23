@@ -9,16 +9,20 @@ class CepGratis {
     /**
      * Metodo para realizar a consulta
      *
+     * @throws Exception
      * @param  string $cep CEP
      * @return array  Endereço
      */
     public static function consulta($cep) {
 
+        if (strlen($cep) < 8)
+            throw new Exception('O cep informado não parece ser válido');
+
         $html = self::curl('http://m.correios.com.br/movel/buscaCepConfirma.do', array(
-            'cepEntrada' => Utils::unmask($cep),
-            'tipoCep' => '',
-            'cepTemp' => '',
-            'metodo' => 'buscarCep'
+                    'cepEntrada' => Utils::unmask($cep),
+                    'tipoCep' => '',
+                    'cepTemp' => '',
+                    'metodo' => 'buscarCep'
         ));
 
 
@@ -30,6 +34,10 @@ class CepGratis {
             'bairro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html()),
             'cep' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
+
+        if ($resposta['logradouro'] == "")
+            throw new Exception('Logradouro não encontrado');
+
         $aux = explode(" - ", $resposta['logradouro']);
         if (count($aux) == 2)
             $resposta['logradouro'] = $aux[0];
