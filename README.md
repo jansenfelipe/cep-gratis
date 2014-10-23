@@ -13,8 +13,19 @@ Adicione no seu arquivo `composer.json` o seguinte registro na chave `require`
 Execute
 
     $ composer update
+    
+Adicione o autoload.php do composer no seu arquivo PHP.
 
-## (Laravel)
+    require_once 'vendor/autoload.php';  
+
+Agora basta chamar o metodo consultar($cep)
+
+    use JansenFelipe\CepGratis\CepGratis as CepGratis;
+    $endereco = CepGratis::consultar('31030080'); 
+
+### Frameworks
+
+##### (Laravel)
 
 Abra seu arquivo `config/app.php` e adicione `'JansenFelipe\CepGratis\CepGratisServiceProvider'` ao final do array `$providers`
 
@@ -36,19 +47,3 @@ Adicione também `'CepGratis' => 'JansenFelipe\CepGratis\Facade'` no final do ar
         'CepGratis'    => 'JansenFelipe\CepGratis\Facade',
 
     ),
-
-Agora basta chamar
-
-    $endereco = CepGratis::consultar('31030080');
-
-
-### (No-Laravel)
-
-Adicione o autoload.php do composer no seu arquivo PHP.
-
-    require_once 'vendor/autoload.php';  
-
-Agora basta chamar o metodo consultar($cep) da classe JansenFelipe\CepGratis
-
-    use JansenFelipe\CepGratis\CepGratis as CepGratis;
-    $endereco = CepGratis::consultar('31030080');
