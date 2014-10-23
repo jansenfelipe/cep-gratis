@@ -2,7 +2,9 @@
 
 namespace JansenFelipe\CepGratis;
 
-use \JansenFelipe\Utils\Utils as Utils;
+use Exception;
+use JansenFelipe\Utils\Utils as Utils;
+use phpQuery;
 
 class CepGratis {
 
@@ -25,14 +27,15 @@ class CepGratis {
                     'metodo' => 'buscarCep'
         ));
 
+        if (!method_exists('phpQuery', 'newDocumentHTML'))
+            require_once __DIR__ . DIRECTORY_SEPARATOR . 'phpQuery-onefile.php';
 
-        require_once __DIR__ . DIRECTORY_SEPARATOR . 'phpQuery-onefile.php';
-        \phpQuery::newDocumentHTML($html, $charset = 'utf-8');
+        phpQuery::newDocumentHTML($html, $charset = 'utf-8');
 
         $resposta = array(
-            'logradouro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
-            'bairro' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html()),
-            'cep' => trim(\phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
+            'logradouro' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
+            'bairro' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html()),
+            'cep' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
 
         if ($resposta['logradouro'] == "")
@@ -42,7 +45,7 @@ class CepGratis {
         if (count($aux) == 2)
             $resposta['logradouro'] = $aux[0];
 
-        $cidadeUF = explode("/", trim(\phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
+        $cidadeUF = explode("/", trim(phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
 
         $resposta['cidade'] = trim($cidadeUF[0]);
         $resposta['uf'] = trim($cidadeUF[1]);
