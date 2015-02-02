@@ -38,12 +38,10 @@ class CepGratis {
             'cep' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
         );
 
-        if ($resposta['logradouro'] == "")
-            throw new Exception('Logradouro não encontrado');
-
-        $aux = explode(" - ", $resposta['logradouro']);
-        if (count($aux) == 2)
-            $resposta['logradouro'] = $aux[0];
+        if ($resposta['logradouro'] == "") {
+            $aux = explode(" - ", $resposta['logradouro']);
+            if (count($aux) == 2) $resposta['logradouro'] = $aux[0];
+        }
 
         $cidadeUF = explode("/", trim(phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
 
