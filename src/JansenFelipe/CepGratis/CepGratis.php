@@ -3,8 +3,8 @@
 namespace JansenFelipe\CepGratis;
 
 use Exception;
+use Goutte\Client;
 use JansenFelipe\Utils\Utils as Utils;
-use phpQuery;
 
 class CepGratis {
 
@@ -20,59 +20,44 @@ class CepGratis {
         if (strlen($cep) < 8)
             throw new Exception('O cep informado não parece ser válido');
 
-        $html = self::curl('http://m.correios.com.br/movel/buscaCepConfirma.do', array(
-                    'cepEntrada' => Utils::unmask($cep),
-                    'tipoCep' => '',
-                    'cepTemp' => '',
-                    'metodo' => 'buscarCep'
+        $client = new Client();
+        $crawler = $client->request('POST', 'http://m.correios.com.br/movel/buscaCepConfirma.do', array(
+            'cepEntrada' => Utils::unmask($cep),
+            'tipoCep' => '',
+            'cepTemp' => '',
+            'metodo' => 'buscarCep'
         ));
 
-        if (!method_exists('phpQuery', 'newDocumentHTML'))
-            require_once __DIR__ . DIRECTORY_SEPARATOR . 'phpQuery-onefile.php';
+        $retorno = array('logradouro' => null, 'bairro' => null, 'cidade' => null, 'cep' => null, 'uf' => null);
 
-        phpQuery::newDocumentHTML($html, $charset = 'utf-8');
+        $respostas = $crawler->filter(".caixacampobranco > span.resposta");
+        $respostaDestaques = $crawler->filter(".caixacampobranco > span.respostadestaque");
 
-        $resposta = array(
-            'logradouro' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("Logradouro: ") + .respostadestaque:eq(0)')->html()),
-            'bairro' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("Bairro: ") + .respostadestaque:eq(0)')->html()),
-            'cep' => trim(phpQuery::pq('.caixacampobranco .resposta:contains("CEP: ") + .respostadestaque:eq(0)')->html())
-        );
+        for ($i = 0; $i < $respostas->count(); $i++) {
+            switch ($respostas->eq($i)->html()) {
 
-        if ($resposta['logradouro'] == "") {
-            $aux = explode(" - ", $resposta['logradouro']);
-            if (count($aux) == 2) $resposta['logradouro'] = $aux[0];
+                case 'Logradouro: ':
+                    $aux = explode(" - ", $respostaDestaques->eq($i)->html());
+                    $retorno['logradouro'] = (count($aux) == 2) ? $aux[0] : $respostaDestaques->eq($i)->html();
+                    break;
+
+                case 'Bairro: ':
+                    $retorno['bairro'] = $respostaDestaques->eq($i)->html();
+                    break;
+
+                case 'Localidade / UF: ':
+                    $explode = explode('/', $respostaDestaques->eq($i)->html());
+                    $retorno['cidade'] = $explode[0];
+                    $retorno['uf'] = $explode[1];
+                    break;
+
+                case 'CEP: ':
+                    $retorno['cep'] = $respostaDestaques->eq($i)->html();
+                    break;
+            }
         }
 
-        $cidadeUF = explode("/", trim(phpQuery::pq('.caixacampobranco .resposta:contains("Localidade / UF: ") + .respostadestaque:eq(0)')->html()));
-
-        $resposta['cidade'] = trim($cidadeUF[0]);
-        $resposta['uf'] = trim($cidadeUF[1]);
-
-        return array_map('html_entity_decode', array_map('htmlentities', $resposta));
-    }
-
-    /**
-     * Metodo para enviar a requisição
-     * @return String HTML
-     */
-    private static function curl($url, $post = array(), $get = array()) {
-        $url = explode('?', $url, 2);
-        if (count($url) === 2) {
-            $temp_get = array();
-            parse_str($url[1], $temp_get);
-            $get = array_merge($get, $temp_get);
-        }
-
-        $ch = curl_init($url[0] . "?" . http_build_query($get));
-
-        if (count($post) > 0) {
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
-        }
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        return curl_exec($ch);
+        return array_map('htmlentities', array_map('trim', $retorno));
     }
 
 }
