@@ -1,6 +1,8 @@
 # CEP Grátis
-[![Travis](https://travis-ci.org/jansenfelipe/cep-gratis.svg?branch=1.0)](https://travis-ci.org/jansenfelipe/cep-gratis)
-[![Latest Stable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/stable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![Total Downloads](https://poser.pugx.org/jansenfelipe/cep-gratis/downloads.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![Latest Unstable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/unstable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) [![License](https://poser.pugx.org/jansenfelipe/cep-gratis/license.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis)
+[![Travis](https://travis-ci.org/jansenfelipe/cep-gratis.svg?branch=2.0)](https://travis-ci.org/jansenfelipe/cep-gratis)
+[![Latest Stable Version](http://img.shields.io/packagist/v/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
+[![Total Downloads](http://img.shields.io/packagist/dt/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
+[![License](http://img.shields.io/packagist/l/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
 
 Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.
 
@@ -8,7 +10,7 @@ Com esse pacote você poderá realizar consultas de CEP no site dos correios gra
 
 Adicione no seu arquivo `composer.json` o seguinte registro na chave `require`
 
-    "jansenfelipe/cep-gratis": "1.0.*@dev"
+    "jansenfelipe/cep-gratis": "2.0.*@dev"
 
 Execute
 
