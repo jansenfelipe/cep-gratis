@@ -36,7 +36,7 @@ class CepGratis {
             'bairro' => $tr->filter("td:nth-child(2)")->html(),
             'cidade' => $tr->filter("td:nth-child(3)")->html(),
             'uf' => $tr->filter("td:nth-child(4)")->html(),
-            'cep' => $tr->filter("td:nth-child(5)")->html()
+            'cep' => Utils::unmask($tr->filter("td:nth-child(5)")->html())
         );
 
         $aux = explode(" - ", $retorno['logradouro']);
