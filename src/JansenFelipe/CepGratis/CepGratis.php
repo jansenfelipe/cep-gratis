@@ -21,41 +21,26 @@ class CepGratis {
             throw new Exception('O cep informado não parece ser válido');
 
         $client = new Client();
-        $crawler = $client->request('POST', 'http://m.correios.com.br/movel/buscaCepConfirma.do', array(
-            'cepEntrada' => Utils::unmask($cep),
-            'tipoCep' => '',
-            'cepTemp' => '',
-            'metodo' => 'buscarCep'
+        $crawler = $client->request('POST', 'http://www.buscacep.correios.com.br/servicos/dnec/consultaLogradouroAction.do', array(
+            'relaxation' => Utils::unmask($cep),
+            'Metodo' => 'listaLogradouro',
+            'TipoConsulta' => 'relaxation',
+            'StartRow' => '1',
+            'EndRow' => '10'
         ));
 
-        $retorno = array('logradouro' => null, 'bairro' => null, 'cidade' => null, 'cep' => null, 'uf' => null);
+        $tr = $crawler->filter(".ctrlcontent > div:nth-child(7) > table:nth-child(1) > tr:nth-child(1)");
 
-        $respostas = $crawler->filter(".caixacampobranco > span.resposta");
-        $respostaDestaques = $crawler->filter(".caixacampobranco > span.respostadestaque");
+        $retorno = array(
+            'logradouro' => $tr->filter("td:nth-child(1)")->html(),
+            'bairro' => $tr->filter("td:nth-child(2)")->html(),
+            'cidade' => $tr->filter("td:nth-child(3)")->html(),
+            'uf' => $tr->filter("td:nth-child(4)")->html(),
+            'cep' => $tr->filter("td:nth-child(5)")->html()
+        );
 
-        for ($i = 0; $i < $respostas->count(); $i++) {
-            switch ($respostas->eq($i)->html()) {
-
-                case 'Logradouro: ':
-                    $aux = explode(" - ", $respostaDestaques->eq($i)->html());
-                    $retorno['logradouro'] = (count($aux) == 2) ? $aux[0] : $respostaDestaques->eq($i)->html();
-                    break;
-
-                case 'Bairro: ':
-                    $retorno['bairro'] = $respostaDestaques->eq($i)->html();
-                    break;
-
-                case 'Localidade / UF: ':
-                    $explode = explode('/', $respostaDestaques->eq($i)->html());
-                    $retorno['cidade'] = $explode[0];
-                    $retorno['uf'] = $explode[1];
-                    break;
-
-                case 'CEP: ':
-                    $retorno['cep'] = $respostaDestaques->eq($i)->html();
-                    break;
-            }
-        }
+        $aux = explode(" - ", $retorno['logradouro']);
+        $retorno['logradouro'] = (count($aux) == 2) ? $aux[0] : $retorno['logradouro'];
 
         return array_map('htmlentities', array_map('trim', $retorno));
     }
