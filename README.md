@@ -1,23 +1,32 @@
 # CEP Grátis
 [![Travis](https://travis-ci.org/jansenfelipe/cep-gratis.svg?branch=2.0)](https://travis-ci.org/jansenfelipe/cep-gratis)
-[![Latest Stable Version](http://img.shields.io/packagist/v/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
-[![Total Downloads](http://img.shields.io/packagist/dt/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
-[![License](http://img.shields.io/packagist/l/jansenfelipe/cep-gratis.svg?style=flat)](https://packagist.org/packages/jansenfelipe/cep-gratis)
+[![Latest Stable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/stable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) 
+[![Total Downloads](https://poser.pugx.org/jansenfelipe/cep-gratis/downloads.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) 
+[![Latest Unstable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/unstable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis)
+[![MIT license](https://img.shields.io/dub/l/vibe-d.svg)](http://opensource.org/licenses/MIT)
 
 Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.
 
-### Para utilizar
-
-### Como usar
+### Como utilizar
 
 Adicione a library
 
-    $ composer require jansenfelipe/cep-gratis
+```sh
+$ composer require jansenfelipe/cep-gratis
+```
     
 Adicione o autoload.php do composer no seu arquivo PHP.
 
-    require_once 'vendor/autoload.php';  
+```php
+require_once 'vendor/autoload.php';  
+```
 
 Agora basta chamar o metodo consultar($cep)
 
-    $endereco = JansenFelipe\CepGratis\CepGratis::consultar('31030080'); 
+```php
+$endereco = JansenFelipe\CepGratis\CepGratis::consultar('31030080'); 
+```
+
+### License
+
+The MIT License (MIT)
