@@ -27,6 +27,12 @@ Agora basta chamar o metodo consultar($cep)
 $endereco = JansenFelipe\CepGratis\CepGratis::consultar('31030080'); 
 ```
 
+### Gostou? Conheça também
+
+* [CnpjGratis](https://github.com/jansenfelipe/cnpj-gratis)
+* [CnpjGratis](https://github.com/jansenfelipe/cnpj-gratis)
+* [Nfephp-serialize](https://github.com/jansenfelipe/nfephp-serialize)
+
 ### License
 
 The MIT License (MIT)
