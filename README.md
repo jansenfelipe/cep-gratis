@@ -24,7 +24,7 @@ require_once 'vendor/autoload.php';
 Agora basta chamar o metodo consultar($cep)
 
 ```php
-$endereco = JansenFelipe\CepGratis\CepGratis::consultar('31030080'); 
+$endereco = JansenFelipe\CepGratis\CepGratis::consulta('31030080'); 
 ```
 
 ### Gostou? Conheça também
