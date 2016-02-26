@@ -1,48 +1,53 @@
 <?php
+    namespace JansenFelipe\CepGratis;
 
-namespace JansenFelipe\CepGratis;
+    use Exception;
+    use Goutte\Client;
+    use JansenFelipe\Utils\Utils as Utils;
 
-use Exception;
-use Goutte\Client;
-use JansenFelipe\Utils\Utils as Utils;
+    class CepGratis {
+        /**
+         * Metodo para realizar a consulta
+         *
+         * @throws  Exception
+         * @param   string $cep CEP
+         * @return  array  Endereço
+         */
+        public static function consulta($cep) {
 
-class CepGratis {
+            if (strlen($cep) < 8)
+                throw new Exception('O cep informado não parece ser válido');
 
-    /**
-     * Metodo para realizar a consulta
-     *
-     * @throws Exception
-     * @param  string $cep CEP
-     * @return array  Endereço
-     */
-    public static function consulta($cep) {
+            $client		= new Client();
+    		$crawler 	= $client->request('POST', 'http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm', [
+                'relaxation'	=> Utils::unmask($cep),
+                'tipoCEP'		=> 'ALL',
+                'semelhante'	=> 'N'
+            ]);
 
-        if (strlen($cep) < 8)
-            throw new Exception('O cep informado não parece ser válido');
+            // Realiza a filtragem para que somente a linha que contenha os
+            // dados que queremos possa ser localizada
+            $tr = $crawler->filter(".tmptabela > tr:nth-child(2)");
 
-        $client = new Client();
-        $crawler = $client->request('POST', 'http://www.buscacep.correios.com.br/servicos/dnec/consultaLogradouroAction.do', array(
-            'relaxation' => Utils::unmask($cep),
-            'Metodo' => 'listaLogradouro',
-            'TipoConsulta' => 'relaxation',
-            'StartRow' => '1',
-            'EndRow' => '10'
-        ));
+            // Recebe o endereço obtido através da consulta
+            $endereco = [
+            	'logradouro'	=> $tr->filter("td:nth-child(1)")->html(),
+            	'bairro'		=> $tr->filter('td:nth-child(2)')->html(),
+            	'cidade'		=> $tr->filter('td:nth-child(3)')->html(),
+            	'cep'			=> $tr->filter('td:nth-child(4)')->html()
+            ];
 
-        $tr = $crawler->filter(".ctrlcontent > div:nth-child(7) > table:nth-child(1) > tr:nth-child(1)");
+            // Remove um dos logradouros, caso a consulta traga mais de um,
+            // como por exemplo: Rua América - Rua G
+            $aux = explode(" - ", $endereco['logradouro']);
+            $endereco['logradouro'] = (count($aux) == 2) ? $aux[0] : $endereco['logradouro'];
 
-        $retorno = array(
-            'logradouro' => $tr->filter("td:nth-child(1)")->html(),
-            'bairro' => $tr->filter("td:nth-child(2)")->html(),
-            'cidade' => $tr->filter("td:nth-child(3)")->html(),
-            'uf' => $tr->filter("td:nth-child(4)")->html(),
-            'cep' => Utils::unmask($tr->filter("td:nth-child(5)")->html())
-        );
+            // Separa a cidade do Estado. Anteriormente estes campos vinham em TD's separadas
+            // agora, vêm juntas, separadas por uma barra
+            $separado = explode('/', $endereco['cidade']);
+            $endereco['cidade'] = $separado[0];
+            $endereco['uf']     = $separado[1];
 
-        $aux = explode(" - ", $retorno['logradouro']);
-        $retorno['logradouro'] = (count($aux) == 2) ? $aux[0] : $retorno['logradouro'];
-
-        return array_map('htmlentities', array_map('trim', $retorno));
+            return array_map('htmlentities', array_map('trim', $endereco));
+        }
     }
-
-}
