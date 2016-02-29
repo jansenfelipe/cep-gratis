@@ -20,9 +20,9 @@
 
             $client		= new Client();
     		$crawler 	= $client->request('POST', 'http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm', [
-                'relaxation'	=> Utils::unmask($cep),
-                'tipoCEP'		=> 'ALL',
-                'semelhante'	=> 'N'
+                'relaxation'  => Utils::unmask($cep),
+                'tipoCEP'     => 'ALL',
+                'semelhante'  => 'N'
             ]);
 
             // Realiza a filtragem para que somente a linha que contenha os
@@ -48,6 +48,6 @@
             $endereco['cidade'] = $separado[0];
             $endereco['uf']     = $separado[1];
 
-            return array_map('htmlentities', array_map('trim', $endereco));
+            return str_replace('&nbsp;', '', array_map('htmlentities', array_map('trim', $endereco)));
         }
     }
