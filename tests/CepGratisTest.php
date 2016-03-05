@@ -13,7 +13,7 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Rua Alabastro', $endereco['logradouro']);
         $this->assertEquals('Sagrada Fam&iacute;lia', $endereco['bairro']);
         $this->assertEquals('Belo Horizonte', $endereco['cidade']);
-        $this->assertEquals('31030080', $endereco['cep']);
+        $this->assertEquals('31030-080', $endereco['cep']);
         $this->assertEquals('MG', $endereco['uf']);
         
         
@@ -22,7 +22,7 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('', $endereco['logradouro']);
         $this->assertEquals('', $endereco['bairro']);
         $this->assertEquals('Catu', $endereco['cidade']);
-        $this->assertEquals('48110000', $endereco['cep']);
+        $this->assertEquals('48110-000', $endereco['cep']);
         $this->assertEquals('BA', $endereco['uf']);
         
     }
