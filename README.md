@@ -7,6 +7,11 @@
 
 Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.
 
+### Changelog
+
+* 2.0.4 - 05/03/2016 Ajuste pois o site dos Correios sofreu alteração. Obrigado @devLopez
+
+
 ### Como utilizar
 
 Adicione a library
