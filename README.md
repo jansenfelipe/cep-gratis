@@ -9,6 +9,7 @@ Com esse pacote você poderá realizar consultas de CEP no site dos correios gra
 
 ### Changelog
 
+* 3.0.0 - 08/03/2016 Up version fabpot/goutte
 * 2.0.4 - 05/03/2016 Ajuste pois o site dos Correios sofreu alteração. Obrigado @devLopez
 
 
