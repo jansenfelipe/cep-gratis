@@ -9,8 +9,9 @@ Com esse pacote você poderá realizar consultas de CEP no site dos correios gra
 
 ### Changelog
 
+* 3.0.1 - 10/03/2016 Tratar cep inexistente. Obrigado [@nunesbeto](https://github.com/nunesbeto)
 * 3.0.0 - 08/03/2016 Up version fabpot/goutte
-* 2.0.4 - 05/03/2016 Ajuste pois o site dos Correios sofreu alteração. Obrigado @devLopez
+* 2.0.4 - 05/03/2016 Ajuste pois o site dos Correios sofreu alteração. Obrigado [@devLopez](https://github.com/devLopez)
 
 
 ### Como utilizar
