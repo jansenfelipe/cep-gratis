@@ -29,6 +29,9 @@ class CepGratis {
         // dados que queremos possa ser localizada
         $tr = $crawler->filter(".tmptabela > tr:nth-child(2)");
 
+        // Se a tabela nao existir, nao foi encontrado nenhum resultado
+        if(!$tr->count()) { return []; }
+
         // Recebe o endereço obtido através da consulta
         $endereco = [
             'logradouro'	=> $tr->filter("td:nth-child(1)")->html(),
