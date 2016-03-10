@@ -2,12 +2,13 @@
 
 namespace JansenFelipe\CepGratis;
 
+use Exception;
 use PHPUnit_Framework_TestCase;
 
 class CepGratisTest extends PHPUnit_Framework_TestCase {
 
-    public function testConsulta() {
-
+    public function testConsulta()
+    {
         $endereco = CepGratis::consulta('31030080');
 
         $this->assertEquals('Rua Alabastro', $endereco['logradouro']);
@@ -24,7 +25,15 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Catu', $endereco['cidade']);
         $this->assertEquals('48110-000', $endereco['cep']);
         $this->assertEquals('BA', $endereco['uf']);
-        
+    }
+
+    public function testConsultaCepInexistente()
+    {
+        try{
+            CepGratis::consulta('12345678');
+        }catch (Exception $e){
+            $this->assertEquals('O cep informado não existe', $e->getMessage());
+        }
     }
 
 }

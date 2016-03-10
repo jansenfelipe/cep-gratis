@@ -30,7 +30,8 @@ class CepGratis {
         $tr = $crawler->filter(".tmptabela > tr:nth-child(2)");
 
         // Se a tabela nao existir, nao foi encontrado nenhum resultado
-        if(!$tr->count()) { return []; }
+        if(!$tr->count())
+            throw new Exception('O cep informado não existe');
 
         // Recebe o endereço obtido através da consulta
         $endereco = [
