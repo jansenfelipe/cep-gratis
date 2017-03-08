@@ -9,7 +9,10 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
 
     public function testConsulta()
     {
-        $endereco = CepGratis::consulta('31030080');
+        $cepGratis = new CepGratis();
+        $cepGratis->consulta('99999999');
+
+        $endereco = $cepGratis->consulta('99999999');
 
         $this->assertEquals('Rua Alabastro', $endereco['logradouro']);
         $this->assertEquals('Sagrada Fam&iacute;lia', $endereco['bairro']);
