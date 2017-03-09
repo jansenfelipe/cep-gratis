@@ -37,7 +37,7 @@ class CepGratis
     public static function search($cep)
     {
         $cepGratis = new CepGratis();
-        //$cepGratis->addProvider(new ViaCepProvider());
+        $cepGratis->addProvider(new ViaCepProvider());
         $cepGratis->addProvider(new CorreiosProvider());
 
         $address = $cepGratis->resolve($cep);

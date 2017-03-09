@@ -14,7 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "JansenFelipe\\CepGratis\\": "src/"
+            "JansenFelipe\\CepGratis\\": "src/",
+            "JansenFelipe\\CepGratis\\Tests\\": "tests/src/"
         }
     },
     "require-dev": {

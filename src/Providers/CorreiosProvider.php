@@ -22,7 +22,7 @@ class CorreiosProvider implements ProviderContract
         if(!is_null($response))
         {
             return Address::create([
-                'cep' => $cep
+                'zipcode' => $cep
             ]);
         }
     }
