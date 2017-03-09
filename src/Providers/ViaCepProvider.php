@@ -2,28 +2,30 @@
 
 namespace JansenFelipe\CepGratis\Providers;
 
+use JansenFelipe\CepGratis\Address;
+use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
 
-class ViaCepProvider extends ProviderContract
+class ViaCepProvider implements ProviderContract
 {
     /**
-     * @return resource
+     * @return Address|null
      */
-    public function getCurl()
+    public function getAddress($cep, HttpClientContract $client)
     {
-        curl_setopt_array($this->curl, [
-            CURLOPT_URL => 'https://viacep.com.br/ws/'.$this->cep.'/json/',
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
+        $response = $client->get('https://viacep.com.br/ws/'.$cep.'/json/');
 
-        return $this->curl;
-    }
+        if(!is_null($response))
+        {
+            $data = json_decode($response, true);
 
-    /**
-     * @return Endereco
-     */
-    public function parseEndereco($data)
-    {
-        $endereco = $data;
+            return Address::create([
+                'zipcode' => $cep,
+                'street' => $data['logradouro'],
+                'neighborhood' => $data['bairro'],
+                'city' => $data['localidade'],
+                'state'  => $data['uf']
+            ]);
+        }
     }
 }

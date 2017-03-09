@@ -2,30 +2,28 @@
 
 namespace JansenFelipe\CepGratis\Providers;
 
+use JansenFelipe\CepGratis\Address;
+use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
 
-class CorreiosProvider extends ProviderContract
+class CorreiosProvider implements ProviderContract
 {
     /**
-     * @return resource
+     * @return Address
      */
-    public function getCurl()
+    public function getAddress($cep, HttpClientContract $client)
     {
-        curl_setopt_array($this->curl, [
-            CURLOPT_URL => 'http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm',
-            CURLOPT_POST => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS => http_build_query(['relaxation' => $this->cep, 'tipoCEP' => 'ALL', 'semelhante'  => 'N'])
+        $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm',[
+            'relaxation' => $cep,
+            'tipoCEP' => 'ALL',
+            'semelhante'  => 'N'
         ]);
 
-        return $this->curl;
-    }
-
-    /**
-     * @return Endereco
-     */
-    public function parseEndereco($data)
-    {
-        // TODO: Implement getEndereco() method.
+        if(!is_null($response))
+        {
+            return Address::create([
+                'cep' => $cep
+            ]);
+        }
     }
 }

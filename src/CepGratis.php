@@ -2,91 +2,93 @@
 namespace JansenFelipe\CepGratis;
 
 use Exception;
+use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
-use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
+use JansenFelipe\CepGratis\Clients\CurlHttpClient;
 
 class CepGratis
 {
+    /**
+     * @var HttpClientContract
+     */
+    private $client;
+
     /**
      * @var ProviderContract[]
      */
     private $providers = [];
 
     /**
-     * @var resources[]
+     * CepGratis constructor.
      */
-    private $curls = [];
+    public function __construct()
+    {
+        $this->client = new CurlHttpClient();
+    }
 
     /**
-     * @var Endereco
+     * Pesquisa CEP
+     *
+     * @param   string $cep CEP
+     * @return  Address
      */
-    private $endereco = null;
+    public static function search($cep)
+    {
+        $cepGratis = new CepGratis();
+        $cepGratis->addProvider(new ViaCepProvider());
+        //$cepGratis->addProvider(new CorreiosProvider());
+
+        $address = $cepGratis->resolve($cep);
+
+        return $address;
+    }
 
     /**
      * Realiza consulta de CEP
      *
      * @param   string $cep CEP
-     * @return  Endereco
+     * @param   ProviderContract $provider
+     * @return  Address
      */
-    public function consulta($cep)
+    public function resolve($cep)
     {
         if (strlen($cep) < 8)
             throw new Exception('O cep informado não parece ser válido');
 
-        /*
-         * Instance providers
-         */
-        $this->providers = [
-            //new CorreiosProvider($cep),
-            new ViaCepProvider($cep)
-        ];
-
-        /*
-         * Multi cURL
-         */
-        $multi = curl_multi_init();
-
-        foreach ($this->providers as $key => $provider)
-        {
-            $this->curls[$key] = $provider->getCurl();
-
-            curl_multi_add_handle($multi, $this->curls[$key]);
-        }
+        if (count($this->providers) == 0)
+            throw new Exception('Nenhum provider foi informado');
 
         /*
          * Execute
          */
         do {
 
-            curl_multi_exec($multi, $qtd);
-            curl_multi_select($multi);
+            foreach ($this->providers as $provider)
+                $address = $provider->getAddress($cep, $this->client);
 
-            if($qtd < count($this->providers) && $this->isFinalized())
-                break;
+        } while (is_null($address));
 
-        } while ($qtd > 0);
-
-        return $this->endereco;
+        return $address;
     }
 
     /**
-     * Verifica sucesso de alguma resposta
+     * Informa um client http
      *
-     * @return  boolean
+     * @param HttpClientContract $client
      */
-    private function isFinalized()
+    public function setClient(HttpClientContract $client)
     {
-        foreach ($this->providers as $key => $provider)
-        {
-            if(curl_getinfo($this->curls[$key], CURLINFO_HTTP_CODE) != 0)
-            {
-                $content = curl_multi_getcontent($this->curls[$key]);
+        $this->client = $client;
+    }
 
-                $this->endereco = $provider->parseEndereco($content);
-            }
-        }
-
-        return !is_null($this->endereco);
+    /**
+     * Adiciona providers para consulta de CEP
+     *
+     * @param HttpClientContract $client
+     */
+    public function addProvider(ProviderContract $provider)
+    {
+        $this->providers[] = $provider;
     }
 }
