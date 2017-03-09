@@ -12,5 +12,5 @@ interface HttpClientContract
     /**
      * @return string
      */
-    public function post($uri, $data = array());
+    public function post($uri, $data = []);
 }

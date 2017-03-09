@@ -7,7 +7,8 @@ class Util
     /**
      * Get the path to the base of tests source.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     public static function base_path($path = '')

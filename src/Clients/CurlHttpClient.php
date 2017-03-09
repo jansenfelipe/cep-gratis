@@ -43,7 +43,7 @@ class CurlHttpClient implements HttpClientContract
     /**
      * @return string
      */
-    public function post($uri, $data = array())
+    public function post($uri, $data = [])
     {
         if (!isset($this->curls[$uri])) {
             $this->curls[$uri] = $this->createCurl($uri, $data);
@@ -57,10 +57,11 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
-     * Cria resource cURL
+     * Cria resource cURL.
      *
      * @param $uri
      * @param array $data
+     *
      * @return resource
      */
     private function createCurl($uri, array $data = [])
@@ -68,7 +69,7 @@ class CurlHttpClient implements HttpClientContract
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => $uri,
+            CURLOPT_URL            => $uri,
             CURLOPT_RETURNTRANSFER => true,
         ]);
 
@@ -81,7 +82,7 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
-     * Execute cURL
+     * Execute cURL.
      *
      * @return int
      */
