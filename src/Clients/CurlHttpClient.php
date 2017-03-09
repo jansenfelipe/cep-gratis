@@ -36,9 +36,7 @@ class CurlHttpClient implements HttpClientContract
             curl_multi_add_handle($this->multi, $this->curls[$uri]);
         }
 
-        $this->multiExec();
-
-        if(curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
+        if(count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
         {
             return curl_multi_getcontent($this->curls[$uri]);
         }
@@ -56,9 +54,7 @@ class CurlHttpClient implements HttpClientContract
             curl_multi_add_handle($this->multi, $this->curls[$uri]);
         }
 
-        $this->multiExec();
-
-        if(curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
+        if(count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
         {
             return curl_multi_getcontent($this->curls[$uri]);
         }
@@ -92,11 +88,13 @@ class CurlHttpClient implements HttpClientContract
     /**
      * Execute cURL
      *
-     * @return void
+     * @return int
      */
     private function multiExec()
     {
         curl_multi_exec($this->multi, $qtd);
         curl_multi_select($this->multi);
+
+        return $qtd;
     }
 }

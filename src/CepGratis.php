@@ -4,6 +4,7 @@ namespace JansenFelipe\CepGratis;
 use Exception;
 use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
+use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
 use JansenFelipe\CepGratis\Clients\CurlHttpClient;
 
@@ -36,8 +37,8 @@ class CepGratis
     public static function search($cep)
     {
         $cepGratis = new CepGratis();
-        $cepGratis->addProvider(new ViaCepProvider());
-        //$cepGratis->addProvider(new CorreiosProvider());
+        //$cepGratis->addProvider(new ViaCepProvider());
+        $cepGratis->addProvider(new CorreiosProvider());
 
         $address = $cepGratis->resolve($cep);
 
