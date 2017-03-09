@@ -4,7 +4,7 @@ require_once '../vendor/autoload.php';
 
 use JansenFelipe\CepGratis\CepGratis;
 
-if(isset($_POST['cep'])) {
+if (isset($_POST['cep'])) {
     $dados = CepGratis::consulta($_POST['cep']);
 
     var_dump($dados);

@@ -15,8 +15,7 @@ class ViaCepProvider implements ProviderContract
     {
         $response = $client->get('https://viacep.com.br/ws/'.$cep.'/json/');
 
-        if(!is_null($response))
-        {
+        if (!is_null($response)) {
             $data = json_decode($response, true);
 
             return Address::create([

@@ -29,15 +29,13 @@ class CurlHttpClient implements HttpClientContract
      */
     public function get($uri)
     {
-        if(!isset($this->curls[$uri]))
-        {
+        if (!isset($this->curls[$uri])) {
             $this->curls[$uri] = $this->createCurl($uri);
 
             curl_multi_add_handle($this->multi, $this->curls[$uri]);
         }
 
-        if(count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
-        {
+        if (count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0) {
             return curl_multi_getcontent($this->curls[$uri]);
         }
     }
@@ -47,15 +45,13 @@ class CurlHttpClient implements HttpClientContract
      */
     public function post($uri, $data = array())
     {
-        if(!isset($this->curls[$uri]))
-        {
+        if (!isset($this->curls[$uri])) {
             $this->curls[$uri] = $this->createCurl($uri, $data);
 
             curl_multi_add_handle($this->multi, $this->curls[$uri]);
         }
 
-        if(count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0)
-        {
+        if (count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0) {
             return curl_multi_getcontent($this->curls[$uri]);
         }
     }
@@ -76,8 +72,7 @@ class CurlHttpClient implements HttpClientContract
             CURLOPT_RETURNTRANSFER => true,
         ]);
 
-        if(!empty($data))
-        {
+        if (!empty($data)) {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
         }

@@ -54,20 +54,21 @@ class CepGratis
      */
     public function resolve($cep)
     {
-        if (strlen($cep) < 8)
+        if (strlen($cep) < 8) {
             throw new Exception('O cep informado não parece ser válido');
+        }
 
-        if (count($this->providers) == 0)
+        if (count($this->providers) == 0) {
             throw new Exception('Nenhum provider foi informado');
+        }
 
         /*
          * Execute
          */
         do {
-
-            foreach ($this->providers as $provider)
+            foreach ($this->providers as $provider) {
                 $address = $provider->getAddress($cep, $this->client);
-
+            }
         } while (is_null($address));
 
         return $address;

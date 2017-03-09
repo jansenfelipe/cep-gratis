@@ -18,8 +18,9 @@ class Address
     {
         $address = new Address();
 
-        foreach (get_object_vars($address) as $name => $oldValue)
+        foreach (get_object_vars($address) as $name => $oldValue) {
             $address->{$name} = isset($data[$name]) ? $data[$name] : null;
+        }
 
         return $address;
     }

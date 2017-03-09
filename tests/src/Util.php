@@ -2,7 +2,6 @@
 
 namespace JansenFelipe\CepGratis\Tests;
 
-
 class Util
 {
     /**
