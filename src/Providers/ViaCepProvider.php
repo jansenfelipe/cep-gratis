@@ -19,11 +19,11 @@ class ViaCepProvider implements ProviderContract
             $data = json_decode($response, true);
 
             return Address::create([
-                'zipcode' => $cep,
-                'street' => $data['logradouro'],
+                'zipcode'      => $cep,
+                'street'       => $data['logradouro'],
                 'neighborhood' => $data['bairro'],
-                'city' => $data['localidade'],
-                'state'  => $data['uf']
+                'city'         => $data['localidade'],
+                'state'        => $data['uf'],
             ]);
         }
     }

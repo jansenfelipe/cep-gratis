@@ -1,12 +1,13 @@
 <?php
+
 namespace JansenFelipe\CepGratis;
 
 use Exception;
+use JansenFelipe\CepGratis\Clients\CurlHttpClient;
 use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
 use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
-use JansenFelipe\CepGratis\Clients\CurlHttpClient;
 
 class CepGratis
 {
@@ -29,14 +30,15 @@ class CepGratis
     }
 
     /**
-     * Pesquisa CEP
+     * Pesquisa CEP.
      *
-     * @param   string $cep CEP
-     * @return  Address
+     * @param string $cep CEP
+     *
+     * @return Address
      */
     public static function search($cep)
     {
-        $cepGratis = new CepGratis();
+        $cepGratis = new self();
         $cepGratis->addProvider(new ViaCepProvider());
         $cepGratis->addProvider(new CorreiosProvider());
 
@@ -46,11 +48,12 @@ class CepGratis
     }
 
     /**
-     * Realiza consulta de CEP
+     * Realiza consulta de CEP.
      *
-     * @param   string $cep CEP
-     * @param   ProviderContract $provider
-     * @return  Address
+     * @param string           $cep      CEP
+     * @param ProviderContract $provider
+     *
+     * @return Address
      */
     public function resolve($cep)
     {
@@ -75,7 +78,7 @@ class CepGratis
     }
 
     /**
-     * Informa um client http
+     * Informa um client http.
      *
      * @param HttpClientContract $client
      */
@@ -85,7 +88,7 @@ class CepGratis
     }
 
     /**
-     * Adiciona providers para consulta de CEP
+     * Adiciona providers para consulta de CEP.
      *
      * @param HttpClientContract $client
      */

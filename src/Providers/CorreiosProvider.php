@@ -14,14 +14,14 @@ class CorreiosProvider implements ProviderContract
     public function getAddress($cep, HttpClientContract $client)
     {
         $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm', [
-            'relaxation' => $cep,
-            'tipoCEP' => 'ALL',
-            'semelhante'  => 'N'
+            'relaxation'  => $cep,
+            'tipoCEP'     => 'ALL',
+            'semelhante'  => 'N',
         ]);
 
         if (!is_null($response)) {
             return Address::create([
-                'zipcode' => $cep
+                'zipcode' => $cep,
             ]);
         }
     }

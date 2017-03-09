@@ -2,7 +2,6 @@
 
 namespace JansenFelipe\CepGratis\Tests\Providers;
 
-use JansenFelipe\CepGratis\CepGratis;
 use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Tests\Util;

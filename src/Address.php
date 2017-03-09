@@ -16,7 +16,7 @@ class Address
 
     public static function create(array $data = [])
     {
-        $address = new Address();
+        $address = new self();
 
         foreach (get_object_vars($address) as $name => $oldValue) {
             $address->{$name} = isset($data[$name]) ? $data[$name] : null;
