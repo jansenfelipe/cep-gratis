@@ -33,7 +33,7 @@ class CepGratis {
 
         // Se a tabela nao existir, nao foi encontrado nenhum resultado
         if(!$tr->count()) {
-            throw new CepNotFoundException;
+            throw new CepNotFoundException('O cep informado não existe');
         }
 
         // Recebe o endereço obtido através da consulta
