@@ -1,6 +1,6 @@
 {
     "name": "jansenfelipe/cep-gratis",
-    "description": "Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.",
+    "description": "Com esse pacote você poderá realizar consultas de CEP gratuitamente.",
     "keywords": ["cep", "correios", "php"],
     "license": "MIT",
     "authors": [
@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "symfony/dom-crawler": "^3.2"
     },
     "autoload": {
         "psr-4": {

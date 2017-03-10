@@ -9,11 +9,11 @@ use PHPUnit_Framework_TestCase;
 
 class CorreiosProviderTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetAddress()
+    public function testGetSuccessAddress()
     {
         $httpClientStub = $this->getMockBuilder(HttpClientContract::class)->getMock();
 
-        $httpClientStub->method('post')->willReturn(file_get_contents(Util::base_path('resources/correios.html')));
+        $httpClientStub->method('post')->willReturn(file_get_contents(Util::base_path('resources/correios.success.html')));
 
         $correiosProvider = new CorreiosProvider();
 
@@ -24,5 +24,18 @@ class CorreiosProviderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Sagrada Família', $address->neighborhood);
         $this->assertEquals('Belo Horizonte', $address->city);
         $this->assertEquals('MG', $address->state);
+    }
+
+    public function testGetErrorAddress()
+    {
+        $httpClientStub = $this->getMockBuilder(HttpClientContract::class)->getMock();
+
+        $httpClientStub->method('post')->willReturn(file_get_contents(Util::base_path('resources/correios.error.html')));
+
+        $correiosProvider = new CorreiosProvider();
+
+        $address = $correiosProvider->getAddress('31030080', $httpClientStub);
+
+        $this->assertEquals($address, null);
     }
 }

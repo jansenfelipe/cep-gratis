@@ -5,6 +5,7 @@ namespace JansenFelipe\CepGratis\Providers;
 use JansenFelipe\CepGratis\Address;
 use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CorreiosProvider implements ProviderContract
 {
@@ -20,9 +21,29 @@ class CorreiosProvider implements ProviderContract
         ]);
 
         if (!is_null($response)) {
-            return Address::create([
-                'zipcode' => $cep,
-            ]);
+
+            $crawler = new Crawler($response);
+
+            $message = $crawler->filter('div.ctrlcontent p')->html();
+
+            if($message == 'DADOS ENCONTRADOS COM SUCESSO.')
+            {
+                $tr = $crawler->filter('table.tmptabela tr:nth-child(2)');
+
+                $params['zipcode'] = $cep;
+                $params['street'] = $tr->filter("td:nth-child(1)")->html();
+                $params['neighborhood'] = $tr->filter("td:nth-child(2)")->html();
+
+                $aux = explode('/', $tr->filter("td:nth-child(3)")->html());
+                $params['city'] = $aux[0];
+                $params['state'] = $aux[1];
+
+                $aux = explode(" - ", $params['street']);
+                $params['street'] = (count($aux) == 2) ? $aux[0] : $params['street'];
+
+                return Address::create(array_map('trim', $params));
+            }
+
         }
     }
 }
