@@ -2,6 +2,7 @@
 namespace JansenFelipe\CepGratis;
 
 use Exception;
+use InvalidArgumentException;
 use Goutte\Client;
 use JansenFelipe\Utils\Utils as Utils;
 
@@ -15,8 +16,9 @@ class CepGratis {
      */
     public static function consulta($cep) {
 
-        if (strlen($cep) < 8)
-            throw new Exception('O cep informado não parece ser válido');
+        if (strlen($cep) < 8) {
+            throw new InvalidArgumentException('O cep informado não parece ser válido');
+        }
 
         $client		= new Client();
         $crawler 	= $client->request('POST', 'http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm', [
@@ -30,8 +32,9 @@ class CepGratis {
         $tr = $crawler->filter(".tmptabela > tr:nth-child(2)");
 
         // Se a tabela nao existir, nao foi encontrado nenhum resultado
-        if(!$tr->count())
-            throw new Exception('O cep informado não existe');
+        if(!$tr->count()) {
+            throw new CepNotFoundException;
+        }
 
         // Recebe o endereço obtido através da consulta
         $endereco = [

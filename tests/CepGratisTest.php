@@ -16,15 +16,33 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Belo Horizonte', $endereco['cidade']);
         $this->assertEquals('31030-080', $endereco['cep']);
         $this->assertEquals('MG', $endereco['uf']);
-        
-        
+
+
         $endereco = CepGratis::consulta('48110000');
-        
+
         $this->assertEquals('', $endereco['logradouro']);
         $this->assertEquals('', $endereco['bairro']);
         $this->assertEquals('Catu', $endereco['cidade']);
         $this->assertEquals('48110-000', $endereco['cep']);
         $this->assertEquals('BA', $endereco['uf']);
+    }
+
+    /**
+     * @expectedException   \JansenFelipe\CepGratis\CepNotFoundException
+     * @expectedExceptionMessage O cep informado não existe
+     */
+    public function testCepException()
+    {
+        CepGratis::consulta('12345678');
+    }
+
+    /**
+     * @expectedException   \InvalidArgumentException
+     * @expectedExceptionMessage O cep informado não parece ser válido
+     */
+    public function testInvalidCep()
+    {
+        CepGratis::consulta('');
     }
 
     public function testConsultaCepInexistente()
