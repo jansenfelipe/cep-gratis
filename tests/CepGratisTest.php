@@ -44,14 +44,4 @@ class CepGratisTest extends PHPUnit_Framework_TestCase {
     {
         CepGratis::consulta('');
     }
-
-    public function testConsultaCepInexistente()
-    {
-        try{
-            CepGratis::consulta('12345678');
-        }catch (Exception $e){
-            $this->assertEquals('O cep informado não existe', $e->getMessage());
-        }
-    }
-
 }
