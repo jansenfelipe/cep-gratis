@@ -11,7 +11,7 @@ use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
 
 /**
- * Class to query and cache CEP.
+ * Class to query CEP.
  */
 class CepGratis
 {
