@@ -2,13 +2,18 @@
 
 namespace JansenFelipe\CepGratis;
 
-use Exception;
 use JansenFelipe\CepGratis\Clients\CurlHttpClient;
 use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
+use JansenFelipe\CepGratis\Exceptions\CepGratisInvalidParameterException;
+use JansenFelipe\CepGratis\Exceptions\CepGratisTimeoutException;
+use JansenFelipe\CepGratis\Exceptions\CepNotFoundException;
 use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
 
+/**
+ * Class to query and cache CEP.
+ */
 class CepGratis
 {
     /**
@@ -22,6 +27,11 @@ class CepGratis
     private $providers = [];
 
     /**
+     * @var integer
+     */
+    private $timeout = 5;
+
+    /**
      * CepGratis constructor.
      */
     public function __construct()
@@ -30,7 +40,7 @@ class CepGratis
     }
 
     /**
-     * Pesquisa CEP.
+     * Search CEP on all providers.
      *
      * @param string $cep CEP
      *
@@ -48,37 +58,45 @@ class CepGratis
     }
 
     /**
-     * Realiza consulta de CEP.
+     * Performs provider CEP search.
      *
      * @param string           $cep      CEP
-     * @param ProviderContract $provider
      *
      * @return Address
      */
     public function resolve($cep)
     {
-        if (strlen($cep) < 8) {
-            throw new Exception('O cep informado não parece ser válido');
+        if (strlen($cep) != 8 && filter_var($cep, FILTER_VALIDATE_INT) === false) {
+            throw new CepGratisInvalidParameterException('CEP is invalid');
         }
 
         if (count($this->providers) == 0) {
-            throw new Exception('Nenhum provider foi informado');
+            throw new CepGratisInvalidParameterException('No providers were informed');
         }
 
         /*
          * Execute
          */
+        $time = time();
+
         do {
             foreach ($this->providers as $provider) {
                 $address = $provider->getAddress($cep, $this->client);
             }
+
+            if((time() - $time) >= $this->timeout)
+                throw new CepGratisTimeoutException("Maximum execution time of $this->timeout seconds exceeded in PHP");
+
         } while (is_null($address));
 
+        /*
+         * Return
+         */
         return $address;
     }
 
     /**
-     * Informa um client http.
+     * Set client http.
      *
      * @param HttpClientContract $client
      */
@@ -88,12 +106,22 @@ class CepGratis
     }
 
     /**
-     * Adiciona providers para consulta de CEP.
+     * Set array providers
      *
      * @param HttpClientContract $client
      */
     public function addProvider(ProviderContract $provider)
     {
         $this->providers[] = $provider;
+    }
+
+    /**
+     * Set timeout
+     *
+     * @param int $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
     }
 }

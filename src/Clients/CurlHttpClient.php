@@ -43,7 +43,7 @@ class CurlHttpClient implements HttpClientContract
         }
 
         if (count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0) {
-            return curl_multi_getcontent($this->curls[$uri]);
+            //return curl_multi_getcontent($this->curls[$uri]);
         }
     }
 
@@ -61,7 +61,7 @@ class CurlHttpClient implements HttpClientContract
         }
 
         if (count($this->curls) != $this->multiExec() && curl_getinfo($this->curls[$uri], CURLINFO_HTTP_CODE) != 0) {
-            return curl_multi_getcontent($this->curls[$uri]);
+            //return curl_multi_getcontent($this->curls[$uri]);
         }
     }
 
