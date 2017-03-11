@@ -32,5 +32,5 @@
         "jansenfelipe/cnpj-gratis": "Permite consulta de CNPJ no site da receita",
         "jansenfelipe/cpf-gratis": "Permite consulta de CPF no site da receita"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
