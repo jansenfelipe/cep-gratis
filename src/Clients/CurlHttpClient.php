@@ -30,7 +30,7 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
-     * Send GET request
+     * Send GET request.
      *
      * @return string|null
      */
@@ -48,7 +48,7 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
-     * Send POST request
+     * Send POST request.
      *
      * @return string
      */
@@ -79,7 +79,7 @@ class CurlHttpClient implements HttpClientContract
 
         curl_setopt_array($curl, [
             CURLOPT_URL            => $uri,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
         ]);
 
         if (!empty($data)) {
@@ -104,7 +104,7 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
-     * Set headers request
+     * Set headers request.
      *
      * @param string $headers
      */
