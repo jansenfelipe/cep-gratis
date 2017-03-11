@@ -3,9 +3,8 @@
 namespace JansenFelipe\CepGratis\Exceptions;
 
 /**
- * CepGratisInvalidParameterException
+ * CepGratisInvalidParameterException.
  */
 class CepGratisInvalidParameterException extends \Exception
 {
-
 }

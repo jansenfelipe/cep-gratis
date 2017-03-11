@@ -3,9 +3,8 @@
 namespace JansenFelipe\CepGratis\Exceptions;
 
 /**
- * CepGratisTimeoutException
+ * CepGratisTimeoutException.
  */
 class CepGratisTimeoutException extends \Exception
 {
-
 }

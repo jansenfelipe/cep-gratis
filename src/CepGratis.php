@@ -7,7 +7,6 @@ use JansenFelipe\CepGratis\Contracts\HttpClientContract;
 use JansenFelipe\CepGratis\Contracts\ProviderContract;
 use JansenFelipe\CepGratis\Exceptions\CepGratisInvalidParameterException;
 use JansenFelipe\CepGratis\Exceptions\CepGratisTimeoutException;
-use JansenFelipe\CepGratis\Exceptions\CepNotFoundException;
 use JansenFelipe\CepGratis\Providers\CorreiosProvider;
 use JansenFelipe\CepGratis\Providers\ViaCepProvider;
 
@@ -27,7 +26,7 @@ class CepGratis
     private $providers = [];
 
     /**
-     * @var integer
+     * @var int
      */
     private $timeout = 5;
 
@@ -60,7 +59,7 @@ class CepGratis
     /**
      * Performs provider CEP search.
      *
-     * @param string           $cep      CEP
+     * @param string $cep CEP
      *
      * @return Address
      */
@@ -84,9 +83,9 @@ class CepGratis
                 $address = $provider->getAddress($cep, $this->client);
             }
 
-            if((time() - $time) >= $this->timeout)
+            if ((time() - $time) >= $this->timeout) {
                 throw new CepGratisTimeoutException("Maximum execution time of $this->timeout seconds exceeded in PHP");
-
+            }
         } while (is_null($address));
 
         /*
@@ -106,7 +105,7 @@ class CepGratis
     }
 
     /**
-     * Set array providers
+     * Set array providers.
      *
      * @param HttpClientContract $client
      */
@@ -116,7 +115,7 @@ class CepGratis
     }
 
     /**
-     * Set timeout
+     * Set timeout.
      *
      * @param int $timeout
      */
