@@ -17,6 +17,11 @@ class CurlHttpClient implements HttpClientContract
     private $curls = [];
 
     /**
+     * @var string[]
+     */
+    private $headers = [];
+
+    /**
      * CurlHttpClient constructor.
      */
     public function __construct()
@@ -25,6 +30,8 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
+     * Send GET request
+     *
      * @return string|null
      */
     public function get($uri)
@@ -41,6 +48,8 @@ class CurlHttpClient implements HttpClientContract
     }
 
     /**
+     * Send POST request
+     *
      * @return string
      */
     public function post($uri, $data = [])
@@ -70,7 +79,7 @@ class CurlHttpClient implements HttpClientContract
 
         curl_setopt_array($curl, [
             CURLOPT_URL            => $uri,
-            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_RETURNTRANSFER => true
         ]);
 
         if (!empty($data)) {
@@ -92,5 +101,15 @@ class CurlHttpClient implements HttpClientContract
         curl_multi_select($this->multi);
 
         return $qtd;
+    }
+
+    /**
+     * Set headers request
+     *
+     * @param string $headers
+     */
+    public function setHeaders(array $headers)
+    {
+        $this->headers = $headers;
     }
 }

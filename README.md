@@ -5,10 +5,18 @@
 [![Latest Unstable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/unstable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis)
 [![MIT license](https://poser.pugx.org/jansenfelipe/nfephp-serialize/license.svg)](http://opensource.org/licenses/MIT)
 
-Com esse pacote você poderá realizar consultas de CEP no site dos correios gratuitamente.
+Com esse pacote você poderá realizar consultas de CEP gratuitamente.
+
+Para evitar problemas com indisponibilidade de serviços, a consulta é realizada paralelamente em providers diferentes:
+
+* [Website dos correios](http://www.buscacep.correios.com.br/sistemas/buscacep/)
+* [API Viacep](https://viacep.com.br/)
+
+A library irá retornar para você a resposta mais rápida, aumentando assim a performance da consulta.
 
 ### Changelog
 
+* 4.0.0 - 11/03/2017 Consulta em múltiplos providers, interface HttpClient e cache das consultas
 * 3.0.1 - 10/03/2016 Tratar cep inexistente. Obrigado [@nunesbeto](https://github.com/nunesbeto)
 * 3.0.0 - 08/03/2016 Up version fabpot/goutte
 * 2.0.4 - 05/03/2016 Ajuste pois o site dos Correios sofreu alteração. Obrigado [@devLopez](https://github.com/devLopez)
@@ -18,7 +26,7 @@ Com esse pacote você poderá realizar consultas de CEP no site dos correios gra
 
 Adicione a library
 
-```sh
+```shell
 $ composer require jansenfelipe/cep-gratis
 ```
     
@@ -28,10 +36,12 @@ Adicione o autoload.php do composer no seu arquivo PHP.
 require_once 'vendor/autoload.php';  
 ```
 
-Agora basta chamar o metodo consultar($cep)
+Agora basta chamar o método `CepGratis::search($cep)`
 
 ```php
-$endereco = JansenFelipe\CepGratis\CepGratis::consulta('31030080'); 
+use JansenFelipe\CepGratis\CepGratis;
+
+$address = CepGratis::search('31030080'); 
 ```
 
 ### Gostou? Conheça também

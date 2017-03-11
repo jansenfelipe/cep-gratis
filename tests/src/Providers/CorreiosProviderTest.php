@@ -9,7 +9,7 @@ use PHPUnit_Framework_TestCase;
 
 class CorreiosProviderTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetSuccessAddress()
+    public function testSuccessAddress()
     {
         $httpClientStub = $this->getMockBuilder(HttpClientContract::class)->getMock();
 
@@ -26,7 +26,7 @@ class CorreiosProviderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('MG', $address->state);
     }
 
-    public function testGetErrorAddress()
+    public function testNotFoundAddress()
     {
         $httpClientStub = $this->getMockBuilder(HttpClientContract::class)->getMock();
 
@@ -34,7 +34,7 @@ class CorreiosProviderTest extends PHPUnit_Framework_TestCase
 
         $correiosProvider = new CorreiosProvider();
 
-        $address = $correiosProvider->getAddress('31030080', $httpClientStub);
+        $address = $correiosProvider->getAddress('12345678', $httpClientStub);
 
         $this->assertEquals($address, null);
     }
