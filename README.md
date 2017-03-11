@@ -1,6 +1,6 @@
 # CEP Grátis
 [![Travis](https://travis-ci.org/jansenfelipe/cep-gratis.svg?branch=4.0)](https://travis-ci.org/jansenfelipe/cep-gratis)
-[![StyleCI](https://styleci.io/repos/24848930/shield)](https://styleci.io/repos/24848930)
+[![StyleCI](https://styleci.io/repos/24848930/shield?branch=4.0)](https://styleci.io/repos/24848930?branch=4.0)
 [![Latest Stable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/stable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) 
 [![Total Downloads](https://poser.pugx.org/jansenfelipe/cep-gratis/downloads.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis) 
 [![Latest Unstable Version](https://poser.pugx.org/jansenfelipe/cep-gratis/v/unstable.svg)](https://packagist.org/packages/jansenfelipe/cep-gratis)
