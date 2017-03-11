@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5",
         "symfony/dom-crawler": "^3.2",
         "symfony/css-selector": "^3.2"
     },
@@ -25,7 +25,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "4.0-dev"
         }
     },
     "suggest": {
