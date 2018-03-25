@@ -21,7 +21,7 @@ class CorreiosProviderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('31030080', $address->zipcode);
         $this->assertEquals('Rua Alabastro', $address->street);
-        $this->assertEquals('Sagrada Família', $address->neighborhood);
+        $this->assertEquals(utf8_encode('Sagrada Família'), $address->neighborhood);
         $this->assertEquals('Belo Horizonte', $address->city);
         $this->assertEquals('MG', $address->state);
     }

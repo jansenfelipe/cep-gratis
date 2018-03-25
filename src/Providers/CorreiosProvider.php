@@ -14,10 +14,9 @@ class CorreiosProvider implements ProviderContract
      */
     public function getAddress($cep, HttpClientContract $client)
     {
-        $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/resultadoBuscaCepEndereco.cfm', [
-            'relaxation'  => $cep,
-            'tipoCEP'     => 'ALL',
-            'semelhante'  => 'N',
+
+        $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/detalhaCEP.cfm', [
+            'CEP' => $cep
         ]);
 
         if (!is_null($response)) {
@@ -26,13 +25,14 @@ class CorreiosProvider implements ProviderContract
             $message = $crawler->filter('div.ctrlcontent p')->html();
 
             if ($message == 'DADOS ENCONTRADOS COM SUCESSO.') {
-                $tr = $crawler->filter('table.tmptabela tr:nth-child(2)');
+
+                $tr = $crawler->filter('table.tmptabela');
 
                 $params['zipcode'] = $cep;
-                $params['street'] = $tr->filter('td:nth-child(1)')->html();
-                $params['neighborhood'] = $tr->filter('td:nth-child(2)')->html();
+                $params['street'] = $tr->filter('tr:nth-child(1) td:nth-child(2)')->html();
+                $params['neighborhood'] = $tr->filter('tr:nth-child(2) td:nth-child(2)')->html();
 
-                $aux = explode('/', $tr->filter('td:nth-child(3)')->html());
+                $aux = explode('/', $tr->filter('tr:nth-child(3) td:nth-child(2)')->html());
                 $params['city'] = $aux[0];
                 $params['state'] = $aux[1];
 
