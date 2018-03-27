@@ -16,6 +16,7 @@ A library irá retornar para você a resposta mais rápida, aumentando assim a p
 
 ### Changelog
 
+* 4.0.2 - 27/03/2018 Consulta direto na tela de detalhe dos Correios. Obrigado [@adrianogl](https://github.com/adrianogl)
 * 4.0.0 - 11/03/2017 Consulta em múltiplos providers, interface HttpClient
 * 3.0.1 - 10/03/2016 Tratar cep inexistente. Obrigado [@nunesbeto](https://github.com/nunesbeto)
 * 3.0.0 - 08/03/2016 Up version fabpot/goutte
