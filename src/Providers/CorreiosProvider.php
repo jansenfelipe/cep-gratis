@@ -16,7 +16,7 @@ class CorreiosProvider implements ProviderContract
     {
 
         $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/detalhaCEP.cfm', [
-            'CEP' => $cep
+            'CEP' => $cep,
         ]);
 
         if (!is_null($response)) {
