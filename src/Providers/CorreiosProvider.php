@@ -14,7 +14,6 @@ class CorreiosProvider implements ProviderContract
      */
     public function getAddress($cep, HttpClientContract $client)
     {
-
         $response = $client->post('http://www.buscacep.correios.com.br/sistemas/buscacep/detalhaCEP.cfm', [
             'CEP' => $cep,
         ]);
@@ -25,7 +24,6 @@ class CorreiosProvider implements ProviderContract
             $message = $crawler->filter('div.ctrlcontent p')->html();
 
             if ($message == 'DADOS ENCONTRADOS COM SUCESSO.') {
-
                 $tr = $crawler->filter('table.tmptabela');
 
                 $params['zipcode'] = $cep;
