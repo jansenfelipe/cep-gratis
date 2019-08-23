@@ -24,23 +24,34 @@ class CorreiosProvider implements ProviderContract
             $message = $crawler->filter('div.ctrlcontent p')->html();
 
             if ($message == 'DADOS ENCONTRADOS COM SUCESSO.') {
-                $tr = $crawler->filter('table.tmptabela');
+				$trs = $crawler->filter('table.tmptabela tr');
+				
+				$params['zipcode'] = $cep;
+				
+				foreach ($trs as $tr) {
+				 $dados = explode(':', $tr->nodeValue);
+				 
+				 switch(trim($dados[0])) {
+				  case 'Logradouro':
+				   $params['street'] = trim($dados[1]);
+				   $aux = explode(' - ', $params['street']);
+				   $params['street'] = (count($aux) == 2) ? trim($aux[0]) : trim($params['street']);
+				   break;
+				  case 'Bairro':
+				   $params['neighborhood'] = trim($dados[1]);
+				   break;
+				  case 'Localidade/UF':
+				   $aux = explode('/', trim($dados[1]));
+				   $params['city'] = trim($aux[0]);
+				   $params['state'] = trim($aux[1]);
+				   break;
+				 }
+				}
 
-                $params['zipcode'] = $cep;
-                $params['street'] = $tr->filter('tr:nth-child(1) td:nth-child(2)')->html();
-                $params['neighborhood'] = $tr->filter('tr:nth-child(2) td:nth-child(2)')->html();
-
-                $aux = explode('/', $tr->filter('tr:nth-child(3) td:nth-child(2)')->html());
-                $params['city'] = $aux[0];
-                $params['state'] = $aux[1];
-
-                $aux = explode(' - ', $params['street']);
-                $params['street'] = (count($aux) == 2) ? $aux[0] : $params['street'];
-
-                return Address::create(array_map(function ($item) {
-                    return urldecode(str_replace('%C2%A0', '', urlencode($item)));
-                }, $params));
-            }
+				return Address::create(array_map(function ($item) {
+					return urldecode(str_replace('%C2%A0', '', urlencode($item)));
+				}, $params));
+			}
         }
     }
 }
